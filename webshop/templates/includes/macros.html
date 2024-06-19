@@ -65,7 +65,7 @@
 
 {% endmacro %}
 
-{%- macro item_card(item, is_featured=False, is_full_width=False, align="Left") -%}
+{%- macro item_card(item, is_featured=False, is_full_width=False, align="Left",template="") -%}
 {%- set align_items_class = resolve_class({
 	'align-items-end': align == 'Right',
 	'align-items-center': align == 'Center',
@@ -86,12 +86,12 @@
 				<img class="card-img" src="{{ image }}" alt="{{ title }}">
 			</div>
 			<div class="col-md-6">
-				{{ item_card_body(title, description, item, is_featured, align) }}
+				{{ item_card_body(title, description, item, is_featured, align,template) }}
 			</div>
 		</div>
 		{% else %}
 			<div class="col-md-12">
-				{{ item_card_body(title, description, item, is_featured, align) }}
+				{{ item_card_body(title, description, item, is_featured, align,template) }}
 			</div>
 		{% endif %}
 	</div>
@@ -112,13 +112,13 @@
 			</div>
 		</a>
 		{% endif %}
-		{{ item_card_body(title, description, item, is_featured, align) }}
+		{{ item_card_body(title, description, item, is_featured, align,template) }}
 	</div>
 </div>
 {% endif %}
 {%- endmacro -%}
 
-{%- macro item_card_body(title, description, item, is_featured, align) -%}
+{%- macro item_card_body(title, description, item, is_featured, align,template) -%}
 {%- set align_class = resolve_class({
 	'text-right': align == 'Right',
 	'text-center': align == 'Center' and not is_featured,
@@ -137,7 +137,9 @@
 			{{ description or '' }}
 		</div>
 	{% else %}
+		{% if template != "Product Card" %}
 		<div class="product-category">{{ item.item_group or '' }}</div>
+		{% endif %}
 	{% endif %}
 </div>
 {%- endmacro -%}
